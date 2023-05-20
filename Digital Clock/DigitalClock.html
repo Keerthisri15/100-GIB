@@ -8,12 +8,14 @@
 <body onload="initClock()">
   <!--digital clock start-->
   <div class="datetime">
+    <!-- Displaying the date -->
     <div class="date">
       <span id="dayname">Day</span>,
       <span id="month">Month</span>
       <span id="daynum">00</span>,
       <span id="year">Year</span>
     </div>
+    <!-- Displaying the time -->
     <div class="time">
       <span id="hour">00</span>:
       <span id="minutes">00</span>:
@@ -24,16 +26,20 @@
 
   <script type="text/javascript">
     function updateClock() {
+      // Get the current date and time
       var now = new Date();
-      var dname = now.getDay(),
-          mo = now.getMonth(),
-          dnum = now.getDate(),
-          yr = now.getFullYear(),
-          hou = now.getHours(),
-          min = now.getMinutes(),
-          sec = now.getSeconds(),
-          pe = "AM";
 
+      // Extract individual components from the date and time
+      var dname = now.getDay(),   // Day of the week (0-6)
+          mo = now.getMonth(),     // Month (0-11)
+          dnum = now.getDate(),    // Day of the month (1-31)
+          yr = now.getFullYear(),  // Full year (e.g., 2023)
+          hou = now.getHours(),    // Hour (0-23)
+          min = now.getMinutes(),  // Minutes (0-59)
+          sec = now.getSeconds(),  // Seconds (0-59)
+          pe = "AM";               // Period (AM or PM)
+
+      // Convert hour to 12-hour format and determine the period (AM/PM)
       if (hou == 0) {
         hou = 12;
       }
@@ -42,6 +48,7 @@
         pe = "PM";
       }
 
+      // Custom function to add leading zeros to a number
       Number.prototype.pad = function(digits) {
         var n = this.toString();
         while (n.length < digits) {
@@ -50,20 +57,30 @@
         return n;
       };
 
+      // Arrays storing month names and day names
       var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
       var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+      // Array of HTML element IDs to update
       var ids = ["dayname", "month", "daynum", "year", "hour", "minutes", "seconds", "period"];
+
+      // Array of corresponding values to update the HTML elements
       var values = [week[dname], months[mo], dnum.pad(2), yr, hou.pad(2), min.pad(2), sec.pad(2), pe];
 
+      // Update the HTML elements with the respective values
       for (var i = 0; i < ids.length; i++) {
         document.getElementById(ids[i]).textContent = values[i];
       }
     }
 
     function initClock() {
+      // Initial update of the clock
       updateClock();
+
+      // Update the clock every 3 seconds (3000 milliseconds)
       window.setInterval(updateClock, 3000);
     }
   </script>
 </body>
 </html>
+
